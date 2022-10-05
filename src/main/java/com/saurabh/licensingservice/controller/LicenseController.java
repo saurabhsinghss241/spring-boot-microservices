@@ -48,9 +48,10 @@ public class LicenseController {
     @DeleteMapping("/{licenseId}")
     public ResponseEntity<String> deleteLicense(
             @PathVariable(name = "organizationId") String organizationId,
-            @PathVariable(name="licenseId") String licenseId
+            @PathVariable(name="licenseId") String licenseId,
+            @RequestHeader(value = "Accept-Language",required = false) Locale locale
     ) {
-        String result = licenseService.deleteLicense(licenseId,organizationId);
+        String result = licenseService.deleteLicense(licenseId,organizationId,locale);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 }
