@@ -1,12 +1,18 @@
 package com.saurabh.licensingservice.service;
 
 import com.saurabh.licensingservice.entity.License;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
 import java.util.Random;
 
 @Service
 public class LicenseService {
+    @Autowired
+    MessageSource messageSource;
+
     public License getLicense(String licenceId,String organizationId){
         License license = new License();
         license.setId(new Random().nextInt(1000));
@@ -18,17 +24,20 @@ public class LicenseService {
 
         return license;
     }
-    public String createLicense(License license,String organizationId){
+    public String createLicense(License license, String organizationId, Locale locale){
         if(license != null){
             license.setOrganizationId(organizationId);
-            return String.format("This is the post and the object is : %s",license.toString());
+            //based on the locale text in the respective lang will be autopopulated.
+            return String.format(messageSource.getMessage("license.create.message",null,locale),license.toString());
+            //return String.format("This is the post and the object is : %s",license.toString());
         }
         return null;
     }
-    public String updateLicense(License license,String organizationId){
+    public String updateLicense(License license,String organizationId,Locale locale){
         if(license != null){
             license.setOrganizationId(organizationId);
-            return String.format("This is the put and the object is : %s",license.toString());
+            return String.format(messageSource.getMessage("license.update.message",null,locale),license.toString());
+            //return String.format("This is the put and the object is : %s",license.toString());
         }
         return null;
     }

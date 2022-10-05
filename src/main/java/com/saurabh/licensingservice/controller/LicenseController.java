@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Locale;
+
 @RestController
 @RequestMapping("/v1/organization/{organizationId}/license")
 public class LicenseController {
@@ -26,18 +28,20 @@ public class LicenseController {
     @PostMapping("/")
     public ResponseEntity<String> createLicense(
             @PathVariable("organizationId") String organizationId,
-            @RequestBody License license
-    ){
-        String result = licenseService.createLicense(license,organizationId);
+            @RequestBody License license,
+            @RequestHeader(value = "Accept-Language",required = false) Locale locale
+            ){
+        String result = licenseService.createLicense(license,organizationId,locale);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
     @PutMapping("/")
     public ResponseEntity<String> updateLicense(
             @PathVariable("organizationId") String organizationId,
-            @RequestBody License license
+            @RequestBody License license,
+            @RequestHeader(value = "Accept-Language",required = false) Locale locale
     ){
-        String result = licenseService.updateLicense(license,organizationId);
+        String result = licenseService.updateLicense(license,organizationId,locale);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
